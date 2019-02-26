@@ -17,6 +17,8 @@ import javax.net.ssl.HttpsURLConnection;
 // CLASSE ON VALIDAREM L'USUARI
 public class ValidacioUsuari {
 
+    // DINS EL MÈTODE LI HAUREM DE PASSAR LA ADREÇA URL QUE HAGUEM DE MESTER I UN HASHMAP
+    // QUE TENDRÀ UN USUARI I UNA CONTRASENYA
     public static String cridadaPost(String adrecaURL, HashMap<String, String> parametres) {
         String resultat = "";
         try {
@@ -31,6 +33,8 @@ public class ValidacioUsuari {
             OutputStream os = httpConn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(os, "UTF-8"));
+
+            // CRIDEM AL MÈTODE DE MONTAPARAMETRES PER CREAR LA CLAU-VALOR AMB ELS PARÀMETRES PASSATS
             writer.write(montaParametres(parametres));
             writer.flush();
             writer.close();
