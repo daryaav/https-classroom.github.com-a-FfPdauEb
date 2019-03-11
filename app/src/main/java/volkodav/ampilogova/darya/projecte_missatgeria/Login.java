@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -22,6 +24,7 @@ public class Login extends AppCompatActivity {
     private EditText nom, password;
     private Preferencies preferencies;
     private JSONObject js;
+    private ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class Login extends AppCompatActivity {
                     i.putExtra("resultat", resultat);
                     setResult(Activity.RESULT_OK, i);
                     finish();
+
                 } else {
                     Toast.makeText(getBaseContext(), "Login incorrecte", Toast.LENGTH_SHORT).show();
                 }
