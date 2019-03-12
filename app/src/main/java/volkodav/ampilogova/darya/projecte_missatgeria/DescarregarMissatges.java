@@ -1,6 +1,7 @@
 package volkodav.ampilogova.darya.projecte_missatgeria;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ListView;
@@ -17,16 +18,18 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TascaDescarrega extends AsyncTask<String, Integer, String> {
+public class DescarregarMissatges extends AsyncTask<String, Integer, String> {
 
     private BufferedReader in;
     private int responseCode = -1;
     private SimpleAdapter adapter;
     private HelperQuepassaeh database;
+    private SQLiteDatabase db;
     private ListView llista;
     private Context context;
 
-    public TascaDescarrega(ListView llista, Context context) {
+    // CONSTRUCTOR DE LA CLASSE, ON LI PASSEM EL LISTVIEW PRINCIPAL I EL CONTEXTE
+    public DescarregarMissatges(ListView llista, Context context) {
         this.llista = llista;
         this.context = context;
     }
@@ -75,8 +78,7 @@ public class TascaDescarrega extends AsyncTask<String, Integer, String> {
     protected void onPostExecute(String resultat) {
         String res = "";
 
-        // QUAN LA TASCA ACABI, AGAFAM EL STRING QUE ÉS UN JSON
-        // PARSE
+        // QUAN LA TASCA ACABI, AGAFAM EL STRING QUE ÉS UN JSON PARSE
         try {
             JSONObject json = new JSONObject(resultat);
             JSONArray jArray = json.getJSONArray("dades");

@@ -31,9 +31,10 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // CREEM UN OBJECTE DE TIPUS PREFERÈNCIES, I LI INTRODÜIM UN CONTEXTE COM A PARÀMETRE
         preferencies = new Preferencies(this);
 
-
+        // QUAN CLIQUEM EL BOTÓ DE LOGIN, FAREM LA COMPROVACIÓ DEL USUARI
         boto = findViewById(R.id.boto_login);
         boto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +59,7 @@ public class Login extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                // SI EL USUARI ÉS CORRECTE AGAFEM EL MISSATGE DE QUE ÉS CORRECTE
                 if (r) {
                     preferencies.setUser(txt_nom);
                     preferencies.setPassword(txt_password);
@@ -65,6 +67,7 @@ public class Login extends AppCompatActivity {
                     setResult(Activity.RESULT_OK, i);
                     finish();
 
+                // SI EL USUARI NO ÉS CORRECTE, ENVIEM UN MISSATGE DE ERROR
                 } else {
                     Toast.makeText(getBaseContext(), "Login incorrecte", Toast.LENGTH_SHORT).show();
                 }

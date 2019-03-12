@@ -1,6 +1,8 @@
 package volkodav.ampilogova.darya.projecte_missatgeria;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -29,6 +31,7 @@ public class HelperQuepassaeh extends SQLiteOpenHelper {
             + COLUMN_PENDENT + " integer default 0 not null,"
             + "FOREIGN KEY("+COLUMN_FKCODIUSUARI+") REFERENCES "
             +TABLE_USUARI+"("+COLUMN_CODIUSUARI+"))";
+    private SQLiteDatabase database;
 
     private static final String DATABASE_CREATE_USUARI = "create table "
             + TABLE_USUARI + "(" + COLUMN_CODIUSUARI
@@ -53,5 +56,16 @@ public class HelperQuepassaeh extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MISSATGE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USUARI);
         onCreate(db);
+    }
+
+    // INSERTAR UN NOU MISSATGE
+    public long insertarMissatge(String codi, String msg, String datahora, String codiusuari, String nom){
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(COLUMN_CODI, codi);
+        initialValues.put(COLUMN_MSG, msg);
+        initialValues.put(COLUMN_DATAHORA, datahora);
+        initialValues.put(COLUMN_CODIUSUARI, codiusuari);
+        initialValues.put(COLUMN_NOM, nom);
+        return database.insert(TABLE_MISSATGE ,null, initialValues);
     }
 }
