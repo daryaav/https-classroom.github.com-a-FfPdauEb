@@ -1,30 +1,23 @@
 package volkodav.ampilogova.darya.projecte_missatgeria;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 
 public class Login extends AppCompatActivity {
-    private ComprovarXarxa comprovacio;
     private ValidacioUsuari usuari;
     private Button boto;
     private EditText nom, password;
     private Preferencies preferencies;
     private JSONObject js;
-    private ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +52,8 @@ public class Login extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                // SI EL USUARI ÉS CORRECTE AGAFEM EL MISSATGE DE QUE ÉS CORRECTE
+                    // SI EL USUARI ÉS CORRECTE, AGAFEM EL MISSATGE QUE ENS INDICA QUE EL LOGIN
+                    // ÉS CORRECTE
                 if (r) {
                     preferencies.setUser(txt_nom);
                     preferencies.setPassword(txt_password);

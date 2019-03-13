@@ -14,24 +14,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
     private ComprovarXarxa comprovacio;
     private ValidacioUsuari usuari;
-    private EditText nom, password, text_missatge;
+    private EditText text_missatge;
+    private TextView codusuari, n;
     private Preferencies preferencies;
     public ListView lv;
-    private Button boto_afegir;
-    private HelperQuepassaeh database;
+    private Button boto;
+    private ValidacioUsuari connecta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         // INICIEM ELS ID'S DEL LAYOUT
         lv = findViewById(R.id.llista_missatges);
-        boto_afegir = findViewById(R.id.boto_afegir);
+        boto = findViewById(R.id.boto_afegir);
         text_missatge = findViewById(R.id.text_missatge);
 
         // DESACTIVEM EL MODE ESTRICTE I CREAM UNA COMUNICACIÓ SÍNCRONA
@@ -61,25 +62,33 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // ENVIEM EL MISSATGE EN CLICAR EL BOTÓ
-        boto_afegir.setOnClickListener(new View.OnClickListener() {
+        boto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TextView cod = findViewById(R.id.text_codi);
-                String codi = cod.getText().toString();
 
                 String missatge = text_missatge.getText().toString();
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                 Date date = new Date();
                 String data = dateFormat.format(date);
 
-                TextView codusuari = findViewById(R.id.text_codiusuari);
-                String codU = codusuari.getText().toString();
+                codusuari = findViewById(R.id.text_codiusuari);
+                int codU = preferencies.getCodiusuari();
 
-                TextView n = findViewById(R.id.text_nom);
-                String nom = n.getText().toString();
+                n = findViewById(R.id.text_nom);
+                String nom = preferencies.getUser();
 
-                database.insertarMissatge(codi, missatge, data, codU, nom);
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("msg", missatge );
+                hashMap.put("data", data);
+                hashMap.put("codiusuari", String.valueOf(codU));
+                hashMap.put("nom", nom);
+
+                String ruta = "https://iesmantpc.000webhostapp.com/public/provamissatge/";
+                connecta.cridadaPost(ruta, hashMap);
+
+                Toast.makeText(getBaseContext(), "Missatge enviat", Toast.LENGTH_LONG).show();
+
             }
         });
     }
@@ -109,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 // CREAM UN OBJECTE JSON PER PODER DESCARREGAR LA LLISTA DE MISSATGES
                 try {
                     JSONObject js = new JSONObject(data.getStringExtra("resultat"));
+                    JSONObject js2 = new JSONObject(data.getStringExtra("codiusuari"));
                 } catch(JSONException e) {
                     e.printStackTrace();
                 }

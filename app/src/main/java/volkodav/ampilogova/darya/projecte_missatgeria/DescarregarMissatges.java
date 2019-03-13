@@ -23,7 +23,6 @@ public class DescarregarMissatges extends AsyncTask<String, Integer, String> {
     private BufferedReader in;
     private int responseCode = -1;
     private SimpleAdapter adapter;
-    private HelperQuepassaeh database;
     private SQLiteDatabase db;
     private ListView llista;
     private Context context;
@@ -55,7 +54,7 @@ public class DescarregarMissatges extends AsyncTask<String, Integer, String> {
 
             // CODI DE RESPOSTA
             responseCode = httpURLConnection.getResponseCode();
-            Log.d("RUN", "Descarrega " + responseCode);
+            Log.d("RUN", "DESCARREGA " + responseCode);
             if (responseCode == HttpURLConnection.HTTP_OK) {
 
                 // RECOLLIM EL TEXTE
