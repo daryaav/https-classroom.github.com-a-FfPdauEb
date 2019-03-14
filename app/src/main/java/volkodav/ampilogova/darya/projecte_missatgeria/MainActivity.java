@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.text.SimpleDateFormat;
@@ -26,7 +25,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private ComprovarXarxa comprovacio;
-    private ValidacioUsuari usuari;
     private EditText text_missatge;
     private TextView codusuari, n;
     private Preferencies preferencies;
@@ -59,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
         if (preferencies.getCodiusuari() == -1) {
             Intent i = new Intent(this, Login.class);
             startActivityForResult(i, 2);
+
+            // SI L'ACTIVITAT QUE S'OBRI ÉS LA QUE HA DE CONTENIR ELS MISSATGES, ENS DESCARREGAREM
+            // TOTS ELS MISSATGES
+        } else {
+            String ruta = "https://iesmantpc.000webhostapp.com/public/provamissatge/";
+            Log.d("RUN", "DESCARREGA" + ruta);
+            new DescarregarMissatges(lv, this).execute(ruta);
         }
 
         // ENVIEM EL MISSATGE EN CLICAR EL BOTÓ
@@ -78,14 +83,20 @@ public class MainActivity extends AppCompatActivity {
                 n = findViewById(R.id.text_nom);
                 String nom = preferencies.getUser();
 
+                String token = preferencies.getToken();
+
+                // LI PASSEM LES DADES AL HASHMAP
                 HashMap<String, String> hashMap = new HashMap<>();
                 hashMap.put("msg", missatge );
                 hashMap.put("data", data);
                 hashMap.put("codiusuari", String.valueOf(codU));
                 hashMap.put("nom", nom);
 
+
                 String ruta = "https://iesmantpc.000webhostapp.com/public/provamissatge/";
-                connecta.cridadaPost(ruta, hashMap);
+
+                // FEIM LA CONEXXIÓ A LA RUTA, I LI PASSEM LES DADES ANTERIORS JUNTAMENT AMB EL TOKEN
+                connecta.cridadaPost(ruta, hashMap, token);
 
                 Toast.makeText(getBaseContext(), "Missatge enviat", Toast.LENGTH_LONG).show();
 
@@ -118,10 +129,11 @@ public class MainActivity extends AppCompatActivity {
                 // CREAM UN OBJECTE JSON PER PODER DESCARREGAR LA LLISTA DE MISSATGES
                 try {
                     JSONObject js = new JSONObject(data.getStringExtra("resultat"));
-                    JSONObject js2 = new JSONObject(data.getStringExtra("codiusuari"));
                 } catch(JSONException e) {
                     e.printStackTrace();
                 }
+
+                // LI INDIQUEM LA RUTA PER DESCARREGAR ELS MISSATGES, I ACONTINUACIÓ ELS DESCARREGUEM
                 String ruta = "https://iesmantpc.000webhostapp.com/public/provamissatge/";
                 Log.d("RUN", "DESCARREGA" + ruta);
                 new DescarregarMissatges(lv, this).execute(ruta);

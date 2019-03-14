@@ -18,6 +18,7 @@ public class Login extends AppCompatActivity {
     private EditText nom, password;
     private Preferencies preferencies;
     private JSONObject js;
+    private String codUsuari, token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +43,34 @@ public class Login extends AppCompatActivity {
                 hashMap.put("password", txt_password);
 
                 // LI AFEGIM LA URL QUE HEM DE MESTER I EL HASMAP AMB LES DADES DEL NOM DEL USUARI
-                // I LA SEVA CONTRASENYA
-                String resultat = usuari.cridadaPost("http://iesmantpc.000webhostapp.com/public/login/", hashMap);
+                // I LA SEVA CONTRASENYA. TAMBÉ LI PASSEM UN TOKEN BUIT.
+                String resultat = usuari.cridadaPost("http://iesmantpc.000webhostapp.com/public/login/", hashMap, "");
                 boolean r = false;
+
                 try {
+                    // CREAM UN OBJECTE JSON , PASSANT-LI LA RUTA DEL SERVIDOR
                     js = new JSONObject(resultat);
+
+                    // CREAM UN ALTRE OBJECTE JSON, PER PODER AGAFAR LES DADES DEL CODIUSUARI I EL TOKEN
+                    JSONObject dades = js.getJSONObject("dades");
+                    codUsuari = dades.getString("codiusuari");
+                    token = dades.getString("token");
+
+                    // AGAFAM LA RESPOSTA DEL SERVIDOR, A LA HORA DE COMPROVAR EL LOGIN. ENS HAURÀ DE
+                    // DONAR TRUE O FALSE
                     r = js.getBoolean("correcta");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                    // SI EL USUARI ÉS CORRECTE, AGAFEM EL MISSATGE QUE ENS INDICA QUE EL LOGIN
-                    // ÉS CORRECTE
+                // SI EL USUARI ÉS CORRECTE, AGAFEM EL MISSATGE QUE ENS INDICA QUE EL LOGIN
+                // ÉS CORRECTE
                 if (r) {
                     preferencies.setUser(txt_nom);
                     preferencies.setPassword(txt_password);
+                    preferencies.setCodiusuari(Integer.valueOf(codUsuari));
+                    preferencies.setToken(token);
+
                     i.putExtra("resultat", resultat);
                     setResult(Activity.RESULT_OK, i);
                     finish();

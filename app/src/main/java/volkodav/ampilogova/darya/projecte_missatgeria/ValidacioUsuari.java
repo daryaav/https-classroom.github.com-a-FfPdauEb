@@ -19,7 +19,7 @@ public class ValidacioUsuari {
 
     // DINS EL MÈTODE LI HAUREM DE PASSAR LA ADREÇA URL QUE HAGUEM DE MESTER I UN HASHMAP
     // QUE TENDRÀ UN USUARI I UNA CONTRASENYA
-    public static String cridadaPost(String adrecaURL, HashMap<String, String> parametres) {
+    public static String cridadaPost(String adrecaURL, HashMap<String, String> parametres, String token) {
         String resultat = "";
         try {
             URL url = new URL(adrecaURL);
@@ -28,6 +28,12 @@ public class ValidacioUsuari {
             httpConn.setReadTimeout(15000);
             httpConn.setConnectTimeout(25000);
             httpConn.setRequestMethod("POST");
+
+            // SI EL TOKEN NO ESTÀ BUIT, FAREM QUE ES PUGUI PASSAR EL TOKEN
+            if (token != "") {
+                httpConn.setRequestProperty("Authorization", token );
+            }
+
             httpConn.setDoInput(true);
             httpConn.setDoOutput(true);
             OutputStream os = httpConn.getOutputStream();

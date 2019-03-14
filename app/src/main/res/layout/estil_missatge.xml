@@ -9,30 +9,35 @@
         android:id="@+id/text_codi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="codi:" />
+        android:text="codi:"
+        android:textColor="@color/colorPrimaryDark" />
 
     <TextView
         android:id="@+id/text_msg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="msg: " />
+        android:text="msg: "
+        android:textColor="@color/colorPrimaryDark" />
 
     <TextView
         android:id="@+id/text_datahora"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="datahora: " />
+        android:text="datahora: "
+        android:textColor="@color/colorPrimaryDark" />
 
     <TextView
         android:id="@+id/text_codiusuari"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="codiusuari: " />
+        android:text="codiusuari: "
+        android:textColor="@color/colorPrimaryDark" />
 
     <TextView
         android:id="@+id/text_nom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="nom: "></TextView>
+        android:text="nom: "
+        android:textColor="@color/colorPrimaryDark"></TextView>
 
 </LinearLayout>
